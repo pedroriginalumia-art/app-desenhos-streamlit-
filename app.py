@@ -1,8 +1,16 @@
 import streamlit as st
 import pandas as pd
+from PIL import Image
 
-# 📘 Título do app
-st.title("📘 Desenhos P83")
+# 📁 Carregar a logo da Petrobras
+logo = Image.open("BDX8YE1LGZHXMnswhojzC.png")  # Certifique-se de que o arquivo está na mesma pasta
+
+# 🔷 Cabeçalho com logo e título
+col1, col2 = st.columns([1, 6])
+with col1:
+    st.image(logo, width=60)
+with col2:
+    st.markdown("<h1 style='margin-top:10px;'>Desenhos P83</h1>", unsafe_allow_html=True)
 
 # 📥 URL direta da planilha no GitHub
 URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
@@ -36,7 +44,7 @@ if termo_input:
     desenhos_encontrados = resultados['DESENHO'].unique()
 
     if len(desenhos_encontrados) > 0:
-        st.markdown("### 🔍 Sugestões encontradas:")
+        st.markdown("### 🔍 Desenhos Encontrados:")
         for desenho in desenhos_encontrados:
             st.subheader(f"📄 {desenho}")
 
