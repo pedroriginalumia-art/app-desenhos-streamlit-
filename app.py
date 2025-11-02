@@ -3,7 +3,7 @@ import pandas as pd
 from PIL import Image
 
 # 📁 Carregar a logo da Petrobras
-logo = Image.open("BDX8YE1LGZHXMnswhojzC.png")  # Certifique-se de que o arquivo está na mesma pasta
+logo = Image.open("petrobras-seeklogo.png")  # Certifique-se de que o arquivo está na mesma pasta
 
 # 🔷 Cabeçalho com logo e título
 col1, col2 = st.columns([1, 6])
@@ -79,3 +79,4 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
+
