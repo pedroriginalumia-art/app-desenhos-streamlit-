@@ -36,7 +36,7 @@ if termo_input:
     desenhos_encontrados = resultados['DESENHO'].unique()
 
     if len(desenhos_encontrados) > 0:
-        st.markdown("### 🔍 Desenhos Encontrados:")
+        st.markdown("### 🔍 Sugestões encontradas:")
         for desenho in desenhos_encontrados:
             st.subheader(f"📄 {desenho}")
 
@@ -44,9 +44,8 @@ if termo_input:
             revisoes = resultados[resultados['DESENHO'] == desenho]['REVISÃO'].drop_duplicates().tolist()
             revisoes_ordenadas = ordenar_revisoes(revisoes)
 
-            # Última letra como revisão mais recente
-            letras = [r for r in revisoes_ordenadas if str(r).isalpha()]
-            ultima_revisao = letras[-1] if letras else None
+            # ✅ Correção: última revisão é a última da lista ordenada
+            ultima_revisao = revisoes_ordenadas[-1] if revisoes_ordenadas else None
 
             st.markdown("**Revisões disponíveis:**")
             cols = st.columns(len(revisoes_ordenadas))
