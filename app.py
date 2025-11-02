@@ -51,7 +51,10 @@ if termo_input:
             st.markdown("**Revisões disponíveis:**")
             cols = st.columns(len(revisoes_ordenadas))
             for i, rev in enumerate(revisoes_ordenadas):
-                destaque = "background-color:#ffd966;" if rev == ultima_revisao else "background-color:#e0e0e0;"
+                destaque = (
+                    "background-color:#ffd966;color:#000000;" if rev == ultima_revisao
+                    else "background-color:#e0e0e0;color:#000000;"
+                )
                 cols[i].markdown(
                     f"<div style='{destaque}padding:6px;border-radius:6px;text-align:center;font-weight:bold;'>{rev}</div>",
                     unsafe_allow_html=True
