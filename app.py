@@ -1,34 +1,39 @@
 import streamlit as st
 import pandas as pd
 
+# 📥 URL direta da planilha no GitHub
+URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
+
 # 📥 Carregar os dados da planilha
 @st.cache_data
-def carregar_dados(caminho_arquivo):
-    df = pd.read_excel(caminho_arquivo)
+def carregar_dados(url):
+    df = pd.read_excel(url)
     return df
 
-# 🧠 Função para buscar informações do desenho
-def buscar_desenho(df, desenho):
-    resultado = df[df['DESENHO'].astype(str).str.lower() == desenho.lower()]
-    return resultado
+# 🔍 Função para buscar por parte do nome do desenho
+def buscar_desenho(df, termo):
+    filtro = df['DESENHO'].astype(str).str.contains(termo, case=False, na=False)
+    return df[filtro]
 
 # 🎯 Interface do usuário
-st.title("🔍 Consulta de Desenhos")
+st.title("🔍 Consulta de Desenhos com Sugestões")
 
-# 📎 Upload da planilha
-arquivo = st.file_uploader("Envie a planilha (.xlsx)", type=["xlsx"])
+# 🔄 Carregar dados automaticamente do GitHub
+df = carregar_dados(URL_PLANILHA)
 
-if arquivo:
-    df = carregar_dados(arquivo)
+# 🔎 Entrada de texto para busca parcial
+termo_input = st.text_input("Digite parte do nome do desenho (ex: 09A-394):")
 
-    # 🔎 Caixa de pesquisa
-    desenho_input = st.text_input("Digite o nome do desenho para buscar:")
+# 📋 Sugestões automáticas com base no termo
+if termo_input:
+    sugestoes = df[df['DESENHO'].astype(str).str.contains(termo_input, case=False, na=False)]['DESENHO'].unique()
+    sugestao_selecionada = st.selectbox("Selecione o desenho sugerido:", sugestoes)
 
-    if desenho_input:
-        resultado = buscar_desenho(df, desenho_input)
+    # 🔍 Mostrar resultados
+    resultado = buscar_desenho(df, sugestao_selecionada)
 
-        if not resultado.empty:
-            st.success(f"Encontrado {len(resultado)} registro(s) para o desenho '{desenho_input}'")
-            st.dataframe(resultado[['MÓDULO', 'DESENHO', 'REVISÃO']])
-        else:
-            st.warning("Desenho não encontrado.")
+    if not resultado.empty:
+        st.success(f"Encontrado {len(resultado)} registro(s) para o desenho '{sugestao_selecionada}'")
+        st.dataframe(resultado[['MÓDULO', 'DESENHO', 'REVISÃO']])
+    else:
+        st.warning("Desenho não encontrado.")
