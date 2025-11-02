@@ -24,30 +24,21 @@ df = carregar_dados(URL_PLANILHA)
 # 🔎 Entrada de texto para busca parcial
 termo_input = st.text_input("Digite parte do nome do desenho (ex: 09A-394):")
 
-# 📋 Mostrar sugestões abaixo da caixa de pesquisa
+# 📋 Mostrar sugestões e resultados em tempo real
 if termo_input:
-    sugestoes = df[df['DESENHO'].astype(str).str.contains(termo_input, case=False, na=False)]['DESENHO'].unique()
+    resultados = buscar_desenho(df, termo_input)
+    desenhos_encontrados = resultados['DESENHO'].unique()
 
-    if len(sugestoes) > 0:
+    if len(desenhos_encontrados) > 0:
         st.markdown("**Sugestões encontradas:**")
-        for sugestao in sugestoes:
-            if st.button(sugestao):
-                resultado = buscar_desenho(df, sugestao)
+        for desenho in desenhos_encontrados:
+            st.markdown(f"🔹 **{desenho}**")
 
-                if not resultado.empty:
-                    st.success(f"Encontrado {len(resultado)} registro(s) para o desenho '{sugestao}'")
-
-                    # Extrair revisões únicas
-                    revisoes = resultado['REVISÃO'].drop_duplicates().tolist()
-
-                    # Exibir como lista simples
-                    st.markdown("**Revisões disponíveis:**")
-                    for rev in revisoes:
-                        st.markdown(f"- Revisão: `{rev}`")
-                else:
-                    st.warning("Desenho não encontrado.")
-                break
+            # Mostrar revisões únicas para cada desenho
+            revisoes = resultados[resultados['DESENHO'] == desenho]['REVISÃO'].drop_duplicates().tolist()
+            st.markdown("Revisões disponíveis:")
+            for rev in revisoes:
+                st.markdown(f"- Revisão: `{rev}`")
+            st.markdown("---")
     else:
-        st.info("Nenhuma sugestão encontrada.")
-
-
+        st.info("Nenhum desenho encontrado com esse trecho.")
