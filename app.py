@@ -3,14 +3,14 @@ import pandas as pd
 from PIL import Image
 
 # 📁 Carregar a logo da Petrobras
-logo = Image.open("petrobras-seeklogo.png")  # Certifique-se de que o arquivo está na mesma pasta
+logo = Image.open("petrobras-seeklogo.png")  # Certifique-se de que o arquivo está na mesma pasta do script
 
-# 🔷 Cabeçalho com logo e título
+# 🔷 Cabeçalho com logo e título alinhados verticalmente
 col1, col2 = st.columns([1, 6])
 with col1:
     st.image(logo, width=60)
 with col2:
-    st.markdown("<h1 style='margin-top:10px;'>Desenhos P83</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='margin-top:14px;'>Desenhos P83</h1>", unsafe_allow_html=True)
 
 # 📥 URL direta da planilha no GitHub
 URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
@@ -79,4 +79,3 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
-
