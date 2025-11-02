@@ -1,16 +1,24 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
+import base64
+from io import BytesIO
 
 # 📁 Carregar a logo da Petrobras
-logo = Image.open("petrobras-seeklogo.png")  # Certifique-se de que o arquivo está na mesma pasta do script
+logo = Image.open("petrobras-seeklogo.png")
+
+# 🔧 Converter imagem para base64
+buffered = BytesIO()
+logo.save(buffered, format="PNG")
+logo_base64 = base64.b64encode(buffered.getvalue()).decode()
 
 # 🔷 Cabeçalho com logo e título alinhados verticalmente
-col1, col2 = st.columns([1, 6])
-with col1:
-    st.image(logo, width=60)
-with col2:
-    st.markdown("<h1 style='margin-top:14px;'>Desenhos P83</h1>", unsafe_allow_html=True)
+st.markdown(f"""
+<div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+    <img src="data:image/png;base64,{logo_base64}" width="60"/>
+    <h1 style="margin: 0;">Desenhos P83</h1>
+</div>
+""", unsafe_allow_html=True)
 
 # 📥 URL direta da planilha no GitHub
 URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
