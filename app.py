@@ -36,7 +36,7 @@ if termo_input:
     desenhos_encontrados = resultados['DESENHO'].unique()
 
     if len(desenhos_encontrados) > 0:
-        st.markdown("### 🔍 Sugestões encontradas:")
+        st.markdown("### 🔍 Desenhos Encontrados:")
         for desenho in desenhos_encontrados:
             st.subheader(f"📄 {desenho}")
 
@@ -59,6 +59,14 @@ if termo_input:
                     f"<div style='{destaque}padding:6px;border-radius:6px;text-align:center;font-weight:bold;'>{rev}</div>",
                     unsafe_allow_html=True
                 )
+
+            # 🟨 Comentário explicativo abaixo da última revisão
+            if ultima_revisao:
+                st.markdown(
+                    f"<div style='margin-top:8px;color:#ffd966;font-weight:bold;'>⬆ Esta é a última revisão disponível</div>",
+                    unsafe_allow_html=True
+                )
+
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
