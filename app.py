@@ -44,7 +44,7 @@ if termo_input:
             revisoes = resultados[resultados['DESENHO'] == desenho]['REVISÃO'].drop_duplicates().tolist()
             revisoes_ordenadas = ordenar_revisoes(revisoes)
 
-            # ✅ Correção: última revisão é a última da lista ordenada
+            # ✅ Última revisão é a última da lista ordenada
             ultima_revisao = revisoes_ordenadas[-1] if revisoes_ordenadas else None
 
             st.markdown("**Revisões disponíveis:**")
@@ -59,12 +59,14 @@ if termo_input:
                     unsafe_allow_html=True
                 )
 
-            # 🟨 Comentário explicativo abaixo da última revisão
+            # 🟨 Comentário explicativo abaixo da última revisão, na coluna correta
             if ultima_revisao:
-                st.markdown(
-                    f"<div style='margin-top:8px;color:#ffd966;font-weight:bold;'>⬆ Esta é a última revisão disponível</div>",
-                    unsafe_allow_html=True
-                )
+                for i, rev in enumerate(revisoes_ordenadas):
+                    if rev == ultima_revisao:
+                        cols[i].markdown(
+                            f"<div style='margin-top:6px;color:#ffd966;font-weight:bold;'>⬆ Esta é a última revisão disponível</div>",
+                            unsafe_allow_html=True
+                        )
 
             st.markdown("---")
     else:
