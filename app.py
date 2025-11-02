@@ -5,7 +5,7 @@ import base64
 from io import BytesIO
 
 # 📁 Carregar a logo da Petrobras
-logo = Image.open("idlEwiPj05_logos.png")
+logo = Image.open("petrobras-seeklogo.png")
 
 # 🔧 Converter imagem para base64
 buffered = BytesIO()
@@ -87,4 +87,5 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
+
 
