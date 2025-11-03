@@ -16,7 +16,7 @@ logo_base64 = base64.b64encode(buffered.getvalue()).decode()
 # 🔷 Cabeçalho com logo e título alinhados verticalmente
 st.markdown(f"""
 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-    data:image/png;base64,{logo_base64}
+    <img src="data:image/png;base64,{logo_base64}" width="60"/>
     <h1 style="margin: 0;">Desenhos P83</h1>
 </div>
 """, unsafe_allow_html=True)
@@ -89,3 +89,4 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
+
