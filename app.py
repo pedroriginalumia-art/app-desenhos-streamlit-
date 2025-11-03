@@ -20,19 +20,25 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+
 # 📥 URL da planilha no GitHub
 URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
 
-# 🔄 Função para carregar dados
-def carregar_dados(url):
-    return pd.read_excel(url)
+# 🔄 Estado para atualização
+if "refresh" not in st.session_state:
+    st.session_state.refresh = False
 
 # 🔘 Botão para atualizar dados
 if st.button("🔄 Atualizar dados"):
-    st.experimental_rerun()
+    st.session_state.refresh = True
 
-# Carregar dados
+# 🔄 Função para carregar dados SEM CACHE
+def carregar_dados(url):
+    return pd.read_excel(url)
+
+# Se refresh for True, recarrega os dados
 df = carregar_dados(URL_PLANILHA)
+st.session_state.refresh = False  # reseta o estado
 
 # 🔍 Função para buscar por parte do nome do desenho
 def buscar_desenho(df, termo):
@@ -85,4 +91,5 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
+
 
