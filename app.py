@@ -3,6 +3,7 @@ import pandas as pd
 from PIL import Image
 import base64
 from io import BytesIO
+import time
 
 # 📁 Carregar a logo
 logo = Image.open("SEATRIUM.png")
@@ -20,27 +21,22 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# 📥 URL da planilha no GitHub (com parâmetro para evitar cache do GitHub)
+def url_planilha():
+    return f"https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx?nocache={int(time.time())}"
 
-# 📥 URL da planilha no GitHub
-URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
-
-# 🔄 Estado para atualização
-if "refresh" not in st.session_state:
-    st.session_state.refresh = False
-
-# 🔘 Botão para atualizar dados
-if st.button("🔄 Atualizar dados"):
-    st.cache_data.clear()  # Limpa cache
-    st.rerun()  # Reinicia a execução do app
-
-
-# 🔄 Função para carregar dados SEM CACHE
+# 🔄 Função para carregar dados com cache
+@st.cache_data
 def carregar_dados(url):
     return pd.read_excel(url)
 
-# Se refresh for True, recarrega os dados
-df = carregar_dados(URL_PLANILHA)
-st.session_state.refresh = False  # reseta o estado
+# 🔘 Botão para atualizar dados
+if st.button("🔄 Atualizar dados"):
+    st.cache_data.clear()  # Limpa cache do Streamlit
+    st.rerun()  # Reinicia a execução do app
+
+# Carregar dados SEMPRE usando cache
+df = carregar_dados(url_planilha())
 
 # 🔍 Função para buscar por parte do nome do desenho
 def buscar_desenho(df, termo):
@@ -93,6 +89,7 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
+
 
 
 
