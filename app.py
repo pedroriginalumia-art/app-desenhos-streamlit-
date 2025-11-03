@@ -15,7 +15,7 @@ logo_base64 = base64.b64encode(buffered.getvalue()).decode()
 # 🔷 Cabeçalho com logo e título alinhados verticalmente
 st.markdown(f"""
 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-    <img src="data:image/png;base64,{logo_base64}" width="60"/>
+    data:image/png;base64,{logo_base64}
     <h1 style="margin: 0;">Desenhos P83</h1>
 </div>
 """, unsafe_allow_html=True)
@@ -23,10 +23,15 @@ st.markdown(f"""
 # 📥 URL da planilha no GitHub
 URL_PLANILHA = "https://raw.githubusercontent.com/pedroriginalumia-art/app-desenhos-streamlit-/main/DESENHOS%20P83%20REV.xlsx"
 
-# 🔄 Carregar dados SEM CACHE (atualização automática)
+# 🔄 Função para carregar dados
 def carregar_dados(url):
     return pd.read_excel(url)
 
+# 🔘 Botão para atualizar dados
+if st.button("🔄 Atualizar dados"):
+    st.experimental_rerun()
+
+# Carregar dados
 df = carregar_dados(URL_PLANILHA)
 
 # 🔍 Função para buscar por parte do nome do desenho
@@ -80,4 +85,3 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
-
