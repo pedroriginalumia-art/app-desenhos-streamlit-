@@ -31,7 +31,7 @@ if "refresh" not in st.session_state:
 # 🔘 Botão para atualizar dados
 if st.button("🔄 Atualizar dados"):
     st.cache_data.clear()
-    st.experimental_rerun(
+    st.experimental_rerun()
 
 
 # 🔄 Função para carregar dados SEM CACHE
@@ -93,6 +93,7 @@ if termo_input:
             st.markdown("---")
     else:
         st.info("Nenhum desenho encontrado com esse trecho.")
+
 
 
 
