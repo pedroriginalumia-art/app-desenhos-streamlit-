@@ -12,7 +12,7 @@ buffered = BytesIO()
 logo.save(buffered, format="PNG")
 logo_base64 = base64.b64encode(buffered.getvalue()).decode()
 
-# 🔷 Cabeçalho com logo e título
+# 🔷 Cabeçalho com logo e título (HTML corrigido)
 st.markdown(f"""
 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
     data:image/png;base64,{logo_base64}
